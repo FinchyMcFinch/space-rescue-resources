@@ -1,2 +1,2 @@
 from Rooms.WelcomeScreen import WelcomeScreen
-from Objects.Title import Title
+from Rooms.GamePlay import GamePlay
