@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+# MainController.py
 
 import sys
 import pygame
