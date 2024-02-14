@@ -16,6 +16,9 @@ class Ship(RoomObject):
         self.handle_key_events = True
 
         self.movement_speed = 2
+        self.move_key = 0
+        # 1 = w
+        # 2 = s
 
     def key_pressed(self, key):
         """
@@ -23,30 +26,29 @@ class Ship(RoomObject):
         """
         if key[pygame.K_w]:
             self.y_speed -= self.movement_speed
+            self.move_key = 1
         
         elif key[pygame.K_s]:
             self.y_speed += self.movement_speed
+            self.move_key = 2
 
     def step(self):
         """
         game tick
         """
+        self.decelerate()
         self.keep_in_room()
-        if not self.check_key(pygame.K_w) and self.y_speed < 0:
-
-
-    def check_key(self, key_id):
+    
+    def decelerate(self):
         """
-        check if given key is pressed
+        decelerate ship passively
         """
-        flag = False
-        for event in pygame.event.get:
-            if event.type == pygame.KEYDOWN:
-                if event.key == key_id:
-                    flag = True
-        if flag:
-            return True
-        return False
+        if self.move_key == 0:
+            if self.y_speed < 0:
+                self.y_speed += self.movement_speed
+            elif self.y_speed > 0:
+                self.y_speed -= self.movement_speed
+        self.move_key = 0
 
     def keep_in_room(self):
         """
