@@ -19,6 +19,7 @@ class Ship(RoomObject):
         self.move_key = 0
         # 1 = w
         # 2 = s
+        self.bounciness = -0.4
 
     def key_pressed(self, key):
         """
@@ -43,7 +44,10 @@ class Ship(RoomObject):
         """
         decelerate ship passively
         """
-        if self.move_key == 0:
+        if self.y_speed > -2 and self.y_speed < 2:
+            self.y_speed = 0
+            return
+        if self.move_key == 0 and self.y_speed != 0:
             if self.y_speed < 0:
                 self.y_speed += self.movement_speed
             elif self.y_speed > 0:
@@ -56,5 +60,7 @@ class Ship(RoomObject):
         """
         if self.y < 0:
             self.y = 0
+            self.y_speed *= self.bounciness
         elif self.y + self.height > Globals.SCREEN_HEIGHT:
             self.y = Globals.SCREEN_HEIGHT - self.height
+            self.y_speed *= self.bounciness
