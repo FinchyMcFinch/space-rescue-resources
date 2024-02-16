@@ -10,12 +10,11 @@ class Ship(RoomObject):
     def __init__(self, room, x, y):
         RoomObject.__init__(self, room, x, y)
 
-        image = self.load_image("Ship.png")
-        self.set_image(image, 100, 100)
+        self.set_image(self.load_image("Ship.png"), 100, 100)
 
         self.handle_key_events = True
 
-        self.movement_speed = 2
+        self.movement_speed = (2 * 30)/Globals.FRAMES_PER_SECOND ## numbers in brackets are desired speed at given fps
         self.move_key = 0
         # 1 = w
         # 2 = s
@@ -44,7 +43,7 @@ class Ship(RoomObject):
         """
         decelerate ship passively
         """
-        if self.y_speed > -2 and self.y_speed < 2:
+        if self.y_speed > -self.movement_speed and self.y_speed < self.movement_speed:
             self.y_speed = 0
             return
         if self.move_key == 0 and self.y_speed != 0:
