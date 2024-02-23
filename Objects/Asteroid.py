@@ -21,6 +21,8 @@ class Asteroid(RoomObject):
         speed = (10*50)/self.width
         self.set_direction(random.randint(135, 225), speed)
 
+        self.register_collision_object("Ship")
+
     def step(self):
         """
         game tick
@@ -45,3 +47,10 @@ class Asteroid(RoomObject):
         """
         if self.x + self.width < 0:
             self.room.delete_object(self)
+
+    def handle_collision(self, other, other_type):
+        """
+        check for collisions
+        """
+        if other_type == "Ship":
+            self.room.running = False
