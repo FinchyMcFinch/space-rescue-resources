@@ -1,6 +1,7 @@
 # Ship.py
 
 from GameFrame import RoomObject, Globals
+from Objects.Laser import Laser
 import pygame
 
 class Ship(RoomObject):
@@ -20,6 +21,9 @@ class Ship(RoomObject):
         # 2 = s
         self.bounciness = -0.4
 
+        self.can_shoot = True
+        self.shoot_cooldown = 10
+
     def key_pressed(self, key):
         """
         vertical movement
@@ -31,6 +35,9 @@ class Ship(RoomObject):
         elif key[pygame.K_s]:
             self.y_speed += self.movement_speed
             self.move_key = 2
+             
+        elif key[pygame.K_SPACE]:
+            self.shoot_laser()
 
     def step(self):
         """
@@ -63,3 +70,18 @@ class Ship(RoomObject):
         elif self.y + self.height > Globals.SCREEN_HEIGHT:
             self.y = Globals.SCREEN_HEIGHT - self.height
             self.y_speed *= self.bounciness
+    
+    def shoot_laser(self):
+        """
+        pew pew
+        """
+        if self.can_shoot:
+            new_laser = Laser(self.room,
+                              self.x + self.width,
+                              self.y + self.height/2)
+            self.room.add_room_object(new_laser)
+            self.can_shoot = False
+            self.set_timer(self.shoot_cooldown, self.reset_shot)
+
+    def reset_shot(self):
+        self.can_shoot = True
