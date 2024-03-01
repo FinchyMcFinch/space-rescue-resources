@@ -23,7 +23,7 @@ class Laser(RoomObject):
         game tick
         """
         self.outside_room()
-    
+
     def outside_room(self):
         """
         prune old lasers
