@@ -16,6 +16,7 @@ class Laser(RoomObject):
         self.set_direction(0, speed)
 
         self.register_collision_object("Asteroid")
+        self.register_collision_object("Astronaut")
 
     def step(self):
         """
@@ -35,4 +36,6 @@ class Laser(RoomObject):
         only runs if the user can aim worth a damn
         """
         if other_type == "Asteroid":
+            self.room.delete_object(other)
+        elif other_type == "Astronaut":
             self.room.delete_object(other)
